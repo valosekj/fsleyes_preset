@@ -15,6 +15,7 @@ if [[ $# -eq 0 ]] || [[ $1 =~ "-h" ]];then
     echo -e "\nUSAGE:\n\t${0##*/} <image_1.nii.gz> ... <image_X.nii.gz>"
     echo -e "\nEXAMPLE:\n\t${0##*/} sub-001_T1w_seg.nii.gz sub-001_T1w_gmseg.nii.gz ..."
 else
+    script_path=$(dirname $(readlink "$0"))
     # Call python script and pass all input arguments
-    $(dirname $(realpath $0))/venv/bin/python $(dirname $(realpath $0))/fsleyes_preset.py "$@"
+    "${script_path}"/venv/bin/python "${script_path}"/fsleyes_preset.py "$@"
 fi
