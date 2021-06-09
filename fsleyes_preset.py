@@ -7,22 +7,21 @@
 import os
 import sys
 
-
 fsleyes_command = {
-                   'linux': '/usr/local/fsl-6.0.4/bin/fsleyes',
-                   'darwin': 'fsleyes'
-                  }
+    'linux': '/usr/local/fsl-6.0.4/bin/fsleyes',
+    'darwin': 'fsleyes'
+}
 
 conversion_dict = {
-                   'acq-T1map': '-dr 0 2000 -cm hot',           		# T1-map
-                   'acq-T2map': '-dr 0 150 -cm brain_colours_2winter_iso',     	# T2-map
-                   '_seg.nii': '-cm red -a 50',             # SC segmentation
-                   '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
-                   '_labels.nii': '-cm red',                # SC labels
-                   '_gmseg.nii': '-cm blue -a 50',          # GM segmentation
-		   'PAM50_cord': '-cm red -a 50',	    # PAM50 SC
-		   'PAM50_levels': '-cm random -a 50'       # PAM50 labeling
-                  }
+    'acq-T1map': '-dr 0 2000 -cm hot',  # T1-map
+    'acq-T2map': '-dr 0 150 -cm brain_colours_2winter_iso',  # T2-map
+    '_seg.nii': '-cm red -a 50',  # SC segmentation
+    '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
+    '_labels.nii': '-cm red',  # SC labels
+    '_gmseg.nii': '-cm blue -a 50',  # GM segmentation
+    'PAM50_cord': '-cm red -a 50',  # PAM50 SC
+    'PAM50_levels': '-cm random -a 50'  # PAM50 labeling
+}
 
 
 def run_command(command, print_command=True):
