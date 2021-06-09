@@ -14,12 +14,14 @@ fsleyes_command = {
                   }
 
 conversion_dict = {
-                   'T1map': '-dr 0 2000 -cm hot',           # T1-map
-                   'T2map': '-dr 0 150 -cm blue-green',     # T2-map
+                   'acq-T1map': '-dr 0 2000 -cm hot',           		# T1-map
+                   'acq-T2map': '-dr 0 150 -cm brain_colours_2winter_iso',     	# T2-map
                    '_seg.nii': '-cm red -a 50',             # SC segmentation
                    '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
                    '_labels.nii': '-cm red',                # SC labels
                    '_gmseg.nii': '-cm blue -a 50',          # GM segmentation
+		   'PAM50_cord': '-cm red -a 50',	    # PAM50 SC
+		   'PAM50_levels': '-cm random -a 50'       # PAM50 labeling
                   }
 
 
