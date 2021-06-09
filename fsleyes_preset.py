@@ -15,7 +15,7 @@ fsleyes_command = {
 
 conversion_dict = {
                    'T1map': '-dr 0 2000 -cm hot',           # T1-map
-                   'T2map': '-dr 0 150 -cm winter',         # T2-map
+                   'T2map': '-dr 0 150 -cm blue-green',     # T2-map
                    '_seg.nii': '-cm red -a 50',             # SC segmentation
                    '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
                    '_labels.nii': '-cm red',                # SC labels
