@@ -6,15 +6,21 @@
 
 import os
 import sys
+import re
 
 fsleyes_command = {
     'linux': '/usr/local/fsl-6.0.4/bin/fsleyes',
     'darwin': 'fsleyes'
 }
 
+# REGEX explanation
+# ".*" - matches any number of characters
+# "." - matches only a single character
+# "*" - matches zero or more - group that precedes the star can occur any number of times in the text
+
 conversion_dict = {
-    'acq-T1map': '-dr 0 2000 -cm hot',  # T1-map
-    'acq-T2map': '-dr 0 150 -cm brain_colours_2winter_iso',  # T2-map
+    'sub.*acq-T1map.*.nii(.gz)*': '-dr 0 2000 -cm hot',  # T1-map
+    'sub.*acq-T2map.*.nii(.gz)*': '-dr 0 150 -cm brain_colours_2winter_iso',  # T2-map
     '_seg.nii': '-cm red -a 50',  # SC segmentation
     '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
     '_labels.nii': '-cm red',  # SC labels
@@ -49,8 +55,9 @@ def main(argv=None):
     for arg in argv:
         # Loop across items in conversion dict
         for key, value in conversion_dict.items():
-            # Check if input file is included in conversion dict
-            if key in arg:
+            keyRegex = re.compile(key)
+            # Check if input file (arg) is included in conversion dict (keyRegex)
+            if bool(keyRegex.search(arg)):
                 # Add options (-dr, -cm, ...) for given file
                 arguments_list.append(arg + ' ' + value)
 
