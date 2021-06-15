@@ -50,6 +50,7 @@ def main(argv=None):
     """
 
     arguments_list = list()
+    no_arguments_list = list()
 
     # Loop across input arguments (i.e., individual input files)
     for arg in argv:
@@ -64,8 +65,17 @@ def main(argv=None):
     # Convert list of arguments into one single string
     arguments_string = ' '.join([str(element) for element in arguments_list])
 
+    # Identify files without any argument
+    # Loop across input arguments (i.e., individual input files)
+    for arg in argv:
+        if arg not in arguments_string:
+            no_arguments_list.append(arg)
+
+    # Convert list into one single string
+    no_arguments_string = ' '.join([str(element) for element in no_arguments_list])
+
     # Construct shell command with fsleyes based on operating system (linux or darwin)
-    command = fsleyes_command[sys.platform] + ' ' + arguments_string
+    command = fsleyes_command[sys.platform] + ' ' + no_arguments_string + ' ' + arguments_string
 
     # Call shell command
     run_command(command)
