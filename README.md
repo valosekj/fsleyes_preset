@@ -2,6 +2,16 @@
 
 Jan Valosek, fMRI laboratory Olomouc, 2021
 
+## Description
+
+The script automatically set display options for FSLeyes viewer, e.g., 
+
+`fsleyes_preset.sh sub-01_T1w_seg.nii.gz`
+
+starts FSLeyes will following options:
+
+`fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50`
+
 ## Usage
 
 1. Clone repo:
