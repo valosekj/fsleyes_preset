@@ -13,6 +13,15 @@ fsleyes_command = {
     'darwin': 'fsleyes'
 }
 
+# Some of FSLeyes options
+# -dr LO HI - display range
+# -cm CMAP - color map
+# -a PERC - alpha (opacity)
+# -xh - hide the X plane
+# -yh - hide the Y plane
+# -zh - hide the Z plane
+# -n - set name to overlay (only for FSLeyes)
+
 # REGEX explanation
 # ".*" - matches any number of characters
 # "." - matches only a single character
