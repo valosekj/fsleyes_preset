@@ -27,6 +27,7 @@ conversion_dict = {
     '_gmseg.nii': '-cm blue -a 50',  # GM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
     'PAM50_levels': '-cm random -a 50',  # PAM50 labeling
+    'PAM50_wm': '-cm blue-lightblue -dr 0.3 1' # PAM50 WM
     '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1'	# DTI FA map
 }
 
