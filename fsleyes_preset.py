@@ -13,14 +13,23 @@ fsleyes_command = {
     'darwin': 'fsleyes'
 }
 
+# Some of FSLeyes options
+# -dr LO HI - display range
+# -cm CMAP - color map
+# -a PERC - alpha (opacity)
+# -xh - hide the X plane
+# -yh - hide the Y plane
+# -zh - hide the Z plane
+# -n - set name to overlay (only for FSLeyes)
+
 # REGEX explanation
 # ".*" - matches any number of characters
 # "." - matches only a single character
 # "*" - matches zero or more - group that precedes the star can occur any number of times in the text
 
 conversion_dict = {
-    'sub.*acq-T1map.*.nii(.gz)*': '-dr 0 2000 -cm hot',  # T1-map
-    'sub.*acq-T2map.*.nii(.gz)*': '-dr 0 150 -cm brain_colours_2winter_iso',  # T2-map
+    'sub.*acq-T1map.*MRF.nii(.gz)*': '-dr 0 2000 -cm hot',  # T1-map
+    'sub.*acq-T2map.*MRF.nii(.gz)*': '-dr 0 150 -cm brain_colours_2winter_iso',  # T2-map
     '_seg.nii': '-cm red -a 50',  # SC segmentation
     '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
     '_labels.nii': '-cm red',  # SC labels
