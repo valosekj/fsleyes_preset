@@ -38,7 +38,8 @@ conversion_dict = {
     'PAM50_levels': '-cm random -a 50',  # PAM50 labeling
     'PAM50_wm': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM
     'PAM50_gm': '-cm green -dr 0.5 1',		# PAM50 GM
-    '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1'	# DTI FA map
+    '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	# DTI FA map
+    '_perf_': '-dr 0 20'		# perfusion
 }
 
 
