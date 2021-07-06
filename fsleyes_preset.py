@@ -67,6 +67,11 @@ def main(argv=None):
 
     # Loop across input arguments (i.e., individual input files)
     for arg in argv:
+
+        if '[' in arg or ']' in arg:
+            print('ERROR - Regular expression in filenames is not supported, use wild card (*) instead')
+            sys.exit()
+
         # Loop across items in conversion dict
         for key, value in conversion_dict.items():
             keyRegex = re.compile(key)
