@@ -39,8 +39,8 @@ conversion_dict = {
     'PAM50_wm': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM
     'PAM50_gm': '-cm green -dr 0.5 1',		# PAM50 GM
     'PAM50_atlas_53': '-cm green -dr 0.3 1',	# PAM50 dorsal columns
-    'PAM50_atlas_54': '-cm blue-lightblue -dr 0.3 1'	# PAM50 lateral columns
-    'PAM50_atlas_55': '-cm yellow -dr 0.3 1'	# PAM50 ventral columns
+    'PAM50_atlas_54': '-cm blue-lightblue -dr 0.3 1',	# PAM50 lateral columns
+    'PAM50_atlas_55': '-cm yellow -dr 0.3 1',	# PAM50 ventral columns
     '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	# DTI FA map
     '_perf_': '-dr 0 20'		# perfusion
 }
@@ -96,7 +96,7 @@ def main(argv=None):
     no_arguments_string = ' '.join([str(element) for element in no_arguments_list])
 
     # Construct shell command with fsleyes based on operating system (linux or darwin)
-    command = fsleyes_command[sys.platform] + ' ' + no_arguments_string + ' ' + arguments_string
+    command = fsleyes_command[sys.platform] + ' ' + arguments_string + ' ' + no_arguments_string
 
     # Call shell command
     run_command(command)
