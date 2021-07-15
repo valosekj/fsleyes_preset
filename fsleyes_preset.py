@@ -30,10 +30,10 @@ fsleyes_command = {
 conversion_dict = {
     'sub.*acq-T1map.*MRF(_crop)*.nii(.gz)*': '-dr 0 2000 -cm hot',  # T1-map
     'sub.*acq-T2map.*MRF(_crop)*.nii(.gz)*': '-dr 0 150 -cm brain_colours_2winter_iso',  # T2-map
-    '_seg.nii': '-cm red -a 50',  # SC segmentation
+    '_seg(_manual)*.nii(.gz)*': '-cm red -a 50',  # SC segmentation
     '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
     '_labels.nii': '-cm red',  # SC labels
-    '_gmseg.nii': '-cm blue -a 50',  # GM segmentation
+    '_gmseg(_manual)*.nii(.gz)*': '-cm blue -a 50',  # GM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
     'PAM50_levels': '-cm random -a 50',  # PAM50 labeling
     'PAM50_wm': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM
