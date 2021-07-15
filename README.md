@@ -32,8 +32,14 @@ git clone https://github.com/valosekj/fsleyes_preset.git
 fsleyes_preset.sh <image_1.nii.gz> ... <image_X.nii.gz>
 ```
 
-4. Create an alias to the scripts using `ln -s`, e.g.:
+4. Create an alias using `ln -s`  to the directory with scripts (e.g., `/usr/local/bin`) to include `fsleyes_preset.sh` to your `$PATH`:
 
 ```
 ln -s <PATH_TO_CLONED_REPO>/fsleyes_preset/fsleyes_preset.sh /usr/local/bin/fsleyes_preset.sh
+```
+
+5. Optionally, you can create an alias in your `rc` file (`.bashrc` or `.zshrc`) to start script only by typing `ff`:
+
+```
+alias ff='fsleyes_preset.sh'
 ```
