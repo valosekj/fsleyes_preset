@@ -30,14 +30,17 @@ fsleyes_command = {
 conversion_dict = {
     'sub.*acq-T1map.*MRF(_crop)*.nii(.gz)*': '-dr 0 2000 -cm hot',  # T1-map
     'sub.*acq-T2map.*MRF(_crop)*.nii(.gz)*': '-dr 0 150 -cm brain_colours_2winter_iso',  # T2-map
-    '_seg.nii': '-cm red -a 50',  # SC segmentation
+    '_seg(_manual)*.nii(.gz)*': '-cm red -a 50',  # SC segmentation
     '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
     '_labels.nii': '-cm red',  # SC labels
-    '_gmseg.nii': '-cm blue -a 50',  # GM segmentation
+    '_gmseg(_manual)*.nii(.gz)*': '-cm blue -a 50',  # GM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
     'PAM50_levels': '-cm random -a 50',  # PAM50 labeling
     'PAM50_wm': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM
     'PAM50_gm': '-cm green -dr 0.5 1',		# PAM50 GM
+    'PAM50_atlas_53': '-cm green -dr 0.3 1',	# PAM50 dorsal columns
+    'PAM50_atlas_54': '-cm blue-lightblue -dr 0.3 1',	# PAM50 lateral columns
+    'PAM50_atlas_55': '-cm yellow -dr 0.3 1',	# PAM50 ventral columns
     '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	# DTI FA map
     '_perf_': '-dr 0 20'		# perfusion
 }
@@ -67,6 +70,11 @@ def main(argv=None):
 
     # Loop across input arguments (i.e., individual input files)
     for arg in argv:
+
+        if '[' in arg or ']' in arg:
+            print('ERROR - Regular expression in filenames is not supported, use wild card (*) instead')
+            sys.exit()
+
         # Loop across items in conversion dict
         for key, value in conversion_dict.items():
             keyRegex = re.compile(key)
@@ -88,7 +96,7 @@ def main(argv=None):
     no_arguments_string = ' '.join([str(element) for element in no_arguments_list])
 
     # Construct shell command with fsleyes based on operating system (linux or darwin)
-    command = fsleyes_command[sys.platform] + ' ' + no_arguments_string + ' ' + arguments_string
+    command = fsleyes_command[sys.platform] + ' ' + arguments_string + ' ' + no_arguments_string
 
     # Call shell command
     run_command(command)
