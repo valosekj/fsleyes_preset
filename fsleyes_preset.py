@@ -42,7 +42,9 @@ conversion_dict = {
     'PAM50_atlas_54': '-cm blue-lightblue -dr 0.3 1',	# PAM50 lateral columns
     'PAM50_atlas_55': '-cm yellow -dr 0.3 1',	# PAM50 ventral columns
     '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	# DTI FA map
-    '_perf_': '-dr 0 20'		# perfusion
+    '_perf_': '-dr 0 20',		# perfusion
+    'thresh_zstat': '-cm red-yellow',	# FEAT activation
+    '_bin.nii': '-cm blue'		# Binarized mask
 }
 
 
