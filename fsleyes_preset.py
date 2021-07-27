@@ -8,10 +8,13 @@ import os
 import sys
 import re
 
-fsleyes_command = {
-    'linux': '/usr/local/fsl-6.0.4/bin/fsleyes',
-    'darwin': 'fsleyes'
-}
+from enum import Enum
+
+
+class Machine(Enum):
+    linux_laboratory = '/usr/local/fsl-6.0.4/bin/fsleyes'
+    linux = '/usr/local/fsl/bin/fsleyes'
+    mac = 'fsleyes'
 
 # Some of FSLeyes options
 # -dr LO HI - display range
@@ -60,6 +63,22 @@ def run_command(command, print_command=True):
     os.system(command)
 
 
+def get_fsleyes_command():
+    """
+    Get shell command for FSLeyes based on OS
+    :return: str: fsleyes command
+    """
+    # MacOS
+    if sys.platform == 'darwin':
+        return Machine.mac.value
+    # Linux in fMRI laboratory
+    elif sys.platform == 'linux' and os.path.isfile(Machine.linux_laboratory.value):
+        return Machine.linux_laboratory.value
+    # All other Linux machines
+    else:
+        return Machine.linux.value
+
+
 def main(argv=None):
     """
     Construct fsleyes command
@@ -98,7 +117,7 @@ def main(argv=None):
     no_arguments_string = ' '.join([str(element) for element in no_arguments_list])
 
     # Construct shell command with fsleyes based on operating system (linux or darwin)
-    command = fsleyes_command[sys.platform] + ' ' + arguments_string + ' ' + no_arguments_string
+    command = get_fsleyes_command() + ' ' + arguments_string + ' ' + no_arguments_string
 
     # Call shell command
     run_command(command)
