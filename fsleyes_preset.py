@@ -92,6 +92,10 @@ def main(argv=None):
     # Loop across input arguments (i.e., individual input files)
     for arg in argv:
 
+        if not os.path.isfile(arg):
+            print(f'ERROR - File {arg} does not exist.')
+            sys.exit()
+
         if '[' in arg or ']' in arg:
             print('ERROR - Regular expression in filenames is not supported, use wild card (*) instead')
             sys.exit()
