@@ -121,7 +121,7 @@ def main(argv=None):
     no_arguments_string = ' '.join([str(element) for element in no_arguments_list])
 
     # Construct shell command with fsleyes based on operating system (linux or darwin)
-    command = get_fsleyes_command() + ' ' + arguments_string + ' ' + no_arguments_string
+    command = get_fsleyes_command() + ' ' + no_arguments_string + ' ' + arguments_string
 
     # Call shell command
     run_command(command)
