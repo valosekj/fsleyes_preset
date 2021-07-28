@@ -4,7 +4,7 @@ Jan Valosek, fMRI laboratory Olomouc, 2021
 
 ## Description
 
-The script automatically set display options for FSLeyes viewer, e.g., 
+The script automatically set display options for [FSLeyes](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FSLeyes) viewer, e.g., 
 
 ```
 fsleyes_preset.sh sub-01_T1w_seg.nii.gz
