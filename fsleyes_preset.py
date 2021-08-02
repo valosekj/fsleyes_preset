@@ -115,8 +115,10 @@ def main(argv=None):
     # Identify files without any argument
     # Loop across input arguments (i.e., individual input files)
     for arg in argv:
-        if arg not in arguments_string:
-            no_arguments_list.append(arg)
+        # Continue only if current file is nifti file (i.e., skip json, yml etc. files)
+        if arg.endswith('.nii') or arg.endswith('.nii.gz'):
+            if arg not in arguments_string:
+                no_arguments_list.append(arg)
 
     # Convert list into one single string
     no_arguments_string = ' '.join([str(element) for element in no_arguments_list])
