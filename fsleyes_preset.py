@@ -103,6 +103,7 @@ def main(argv=None):
 
         # Loop across items in conversion dict
         for key, value in conversion_dict.items():
+	    # Compile a regular expression pattern into regular expression object
             keyRegex = re.compile(key)
             # Check if input file (arg) is included in conversion dict (keyRegex)
             if bool(keyRegex.search(arg)):
