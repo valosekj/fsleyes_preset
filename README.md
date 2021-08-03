@@ -4,16 +4,32 @@ Jan Valosek, fMRI laboratory Olomouc, 2021
 
 ## Description
 
-The script automatically set display options for [FSLeyes](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FSLeyes) viewer, e.g., 
+The script automatically set display options for [FSLeyes](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FSLeyes) viewer.
 
-```
+## Current features
+
+1. Set display options (such as colormap, display range or opacity), e.g.:
+
+```console
 fsleyes_preset.sh sub-01_T1w_seg.nii.gz
-```
-
-starts FSLeyes will following options:
-
-```
+# starts FSLeyes will following options:
 fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50
+```
+
+2. Set maximum intensity for structural images (such as T1w or T2w) to 70%, e.g.:
+
+```console
+fsleyes_preset.sh sub-01_T1w.nii.gz
+# starts FSLeyes will following options:
+fsleyes sub-01_T1w.nii.gz -dr 0 <max * 0.7>
+```
+
+3. Open all `.nii` and `.nii.gz` files from given directory and ignore all other files (such as json, yml, etc.), e.g.:
+
+```console
+fsleyes_preset.sh *
+# starts FSLeyes will following options:
+fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50 sub-01_T1w.nii.gz -dr 0 <max * 0.7>
 ```
 
 ## Usage
@@ -24,7 +40,7 @@ fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50
 git clone https://github.com/valosekj/fsleyes_preset.git
 ```
 
-2. Create virtual environment - manual [here](https://gist.github.com/valosekj/8052b227bd3f439a615a33804beaf37f#venv-enviroment)
+2. Create virtual environment and install requirements - manual [here](https://gist.github.com/valosekj/8052b227bd3f439a615a33804beaf37f#venv-enviroment)
 
 3. Call python script using shell wrapper:
 
