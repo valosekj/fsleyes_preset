@@ -8,6 +8,9 @@ import os
 import sys
 import re
 
+import nibabel as nib
+import numpy as np
+
 from enum import Enum
 
 
@@ -51,6 +54,9 @@ conversion_dict = {
     '_bin.nii': '-cm blue'		# Binarized mask
 }
 
+# List of images to set max intensity to 70%
+set_intensity_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'Mprage.nii.gz', 'MprageGd.nii.gz']
+
 
 def run_command(command, print_command=True):
     """
@@ -78,6 +84,23 @@ def get_fsleyes_command():
     # All other Linux machines
     else:
         return Machine.linux.value
+
+
+def get_image_intensities(fname_image):
+    """
+    Get min and max intensities for input nifti image
+    :param fname_image: str: input nifti image
+    :return: min_intensity: float64: minimum intensity of input image
+    :return: max_intensity: float64: maximum intensity of input image
+    """
+    # Load nii image
+    image = nib.load(fname_image)
+    # Get min intensity
+    min_intensity = np.min(image.get_fdata())
+    # Get max intensity
+    max_intensity = np.max(image.get_fdata())
+
+    return min_intensity, max_intensity
 
 
 def main(argv=None):
@@ -108,6 +131,18 @@ def main(argv=None):
             if bool(keyRegex.search(arg)):
                 # Add options (-dr, -cm, ...) for given file
                 arguments_list.append(arg + ' ' + value)
+
+        # Loop across items in list with structural images to decrease max intensity
+        for item in set_intensity_list:
+            if item in arg:
+                # Get absolute path to nii file
+                fname = os.path.abspath(arg)
+                # Get max intensity
+                _, max_intensity = get_image_intensities(fname)
+                # Decrease max intensity to 70 %
+                max_intensity = str(int(max_intensity * 0.7))
+                # Add -dr option
+                arguments_list.append(arg + ' -dr 0 ' + max_intensity)
 
     # Convert list of arguments into one single string
     arguments_string = ' '.join([str(element) for element in arguments_list])
