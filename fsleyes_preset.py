@@ -35,8 +35,8 @@ class Machine(Enum):
 # "*" - matches zero or more - group in brackets () that precedes the star can occur any number of times in the text
 
 conversion_dict = {
-    'sub.*acq-T1map.*MRF(_crop)*.nii(.gz)*': '-dr 0 2000 -cm hot',  # T1-map
-    'sub.*acq-T2map.*MRF(_crop)*.nii(.gz)*': '-dr 0 80 -cm brain_colours_2winter_iso',  # T2-map
+    'sub.*acq-T1map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 2000 -cm hot',  # T1-map
+    'sub.*acq-T2map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 80 -cm brain_colours_2winter_iso',  # T2-map
     '_seg(_manual)*.nii(.gz)*': '-cm red -a 50',  # SC segmentation
     '_seg_crop': '-cm red -a 50',	# Cropped SC segmetnation
     '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
