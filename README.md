@@ -10,27 +10,33 @@ The script automatically set display options for [FSLeyes](https://fsl.fmrib.ox.
 
 1. Set display options (such as colormap, display range or opacity), e.g.:
 
-```console
-fsleyes_preset.sh sub-01_T1w_seg.nii.gz
-# starts FSLeyes will following options:
-fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50
-```
+    ```
+    fsleyes_preset.sh sub-01_T1w_seg.nii.gz
+    ```
+    starts FSLeyes will following options:
+    ```
+    fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50
+    ```
 
 2. Set maximum intensity for structural images (such as T1w or T2w) to 70%, e.g.:
 
-```console
-fsleyes_preset.sh sub-01_T1w.nii.gz
-# starts FSLeyes will following options:
-fsleyes sub-01_T1w.nii.gz -dr 0 <max * 0.7>
-```
+    ```
+    fsleyes_preset.sh sub-01_T1w.nii.gz
+    ```
+    starts FSLeyes will following options:
+    ```
+    fsleyes sub-01_T1w.nii.gz -dr 0 <max * 0.7>
+    ```
 
 3. Open all `.nii` and `.nii.gz` files from given directory and ignore all other files (such as json, yml, etc.), e.g.:
 
-```console
-fsleyes_preset.sh *
-# starts FSLeyes will following options:
-fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50 sub-01_T1w.nii.gz -dr 0 <max * 0.7>
-```
+    ```
+    fsleyes_preset.sh *
+    ```
+    starts FSLeyes will following options (assuming that `sub-01_T1w_seg.nii.gz` and `sub-01_T1w.nii.gz` are located in your directory):
+    ```
+    fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50 sub-01_T1w.nii.gz -dr 0 <max * 0.7>
+    ```
 
 ## Usage
 
