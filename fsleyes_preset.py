@@ -13,51 +13,13 @@ import numpy as np
 
 from enum import Enum
 
+config_file_path = os.path.expanduser('~/.fsleyes_preset')
+
 
 class Machine(Enum):
     linux_laboratory = '/usr/local/fsl-6.0.4/bin/fsleyes'
     linux = '/usr/local/fsl/bin/fsleyes'
     mac = 'fsleyes'
-
-# Some of FSLeyes options
-# To see all options, run fsleyes --fullhelp
-# -dr LO HI - display range
-# -cm CMAP - color map
-# -a PERC - alpha (opacity)
-# -xh - hide the X plane
-# -yh - hide the Y plane
-# -zh - hide the Z plane
-# -n - set name to overlay (only within FSLeyes)
-
-# REGEX explanation
-# ".*" - matches any number of characters
-# "." - matches only a single character
-# "*" - matches zero or more - group in brackets () that precedes the star can occur any number of times in the text
-
-conversion_dict = {
-    'sub.*acq-T1map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 2000 -cm hot',  # T1-map
-    'sub.*acq-T2map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 80 -cm brain_colours_2winter_iso',  # T2-map
-    'sub.*acq-T1-T2map.*MRF(_crop)*(masked)*.nii(.gz)*': '-dr 0 50', 	# T1/T2 ratio
-    '_seg(_manual)*.nii(.gz)*': '-cm red -a 50',  # SC segmentation
-    '_seg_crop': '-cm red -a 50',	# Cropped SC segmetnation
-    '_seg_labeled.nii': '-cm random -a 70',  # SC labeling
-    '_labels.nii': '-cm red',  # SC labels
-    '_gmseg(_manual)*.nii(.gz)*': '-cm blue -a 50',  # GM segmentation
-    'PAM50_cord': '-cm red -a 50',  # PAM50 SC
-    'PAM50_levels': '-cm random -a 50',  # PAM50 labeling
-    'PAM50_wm': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM
-    'PAM50_gm': '-cm red-yellow -dr 0.5 1',		# PAM50 GM
-    'PAM50_atlas_53': '-cm green -dr 0.3 1',	# PAM50 dorsal columns
-    'PAM50_atlas_54': '-cm blue-lightblue -dr 0.3 1',	# PAM50 lateral columns
-    'PAM50_atlas_55': '-cm yellow -dr 0.3 1',	# PAM50 ventral columns
-    '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	# DTI FA map
-    '_perf_': '-dr 0 20',		# perfusion
-    'thresh_zstat': '-cm red-yellow',	# FEAT activation
-    '_bin.nii': '-cm blue'		# Binarized mask
-}
-
-# List of images to set max intensity to 70%
-set_intensity_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'Mprage.nii.gz', 'MprageGd.nii.gz']
 
 
 def run_command(command, print_command=True):
@@ -112,6 +74,16 @@ def main(argv=None):
     :return:
     """
 
+    # Import settings from config file from your home directory ('~/.fsleyes_preset/config.py')
+    if os.path.isfile(os.path.join(config_file_path, 'config.py')):
+        sys.path.append(config_file_path)
+        from config import conversion_dict, set_intensity_list
+    # If config file in your home directory ('~/.fsleyes_preset/config.py') does not exist, use the default template
+    elif os.path.isfile(os.path.join(os.path.dirname(sys.argv[0]), 'config.py')):
+        print('\nWARNING: {} config file not found. Using template config file with limited settings.\n'.
+              format(os.path.join(config_file_path, 'config.py')))
+        from config import conversion_dict, set_intensity_list
+
     arguments_list = list()
     no_arguments_list = list()
 
@@ -128,7 +100,7 @@ def main(argv=None):
 
         # Loop across items in conversion dict
         for key, value in conversion_dict.items():
-	    # Compile a regular expression pattern into regular expression object
+            # Compile a regular expression pattern into regular expression object
             keyRegex = re.compile(key)
             # Check if input file (arg) is included in conversion dict (keyRegex)
             if bool(keyRegex.search(arg)):
