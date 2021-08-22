@@ -63,7 +63,7 @@ alias ff='fsleyes_preset.sh'
 ## Create your own configuration file
 
 The `fsleyes_preset.py` script fetches display options for individual nii files from configuration file located in your
-home directory - `~/.fsleyes_preset/config.py`
+home directory: `~/.fsleyes_preset/config.py`
 
 Instructions how to create this config file:
 
@@ -72,6 +72,6 @@ mkdir ~/.fsleyes_preset
 cp config.py ~/.fsleyes_preset/config.py
 ```
 
-Then, modify the `~/.fsleyes_preset/config.py` file by your favorite text editor (vim, nano, atom, ...)
+Then, modify the `~/.fsleyes_preset/config.py` file in your favorite text editor (vim, nano, atom, ...)
 
 If the `~/.fsleyes_preset/config.py` does not exist, the default config file located within this repo is used
