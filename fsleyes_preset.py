@@ -1,6 +1,9 @@
 #
 # Open FSLeyes and automatically set display options (such as -cm (colormap), -dr (display range), -a (opacity))
 #
+# Display options are fetched from config.py file located in your home directory (~/.fsleyes_preset/config.py). If this
+# file does not exist, the default template config.py file within this repository is used.
+#
 # Jan Valosek, fMRI laboratory Olomouc, 2021
 #
 
@@ -13,6 +16,7 @@ import numpy as np
 
 from enum import Enum
 
+# Path where your config.py configuration file should be located
 config_file_path = os.path.expanduser('~/.fsleyes_preset')
 
 
