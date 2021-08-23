@@ -23,7 +23,7 @@ The script automatically set display options for [FSLeyes](https://fsl.fmrib.ox.
     ```
     fsleyes_preset.sh sub-01_T1w.nii.gz
     ```
-    starts FSLeyes will following options:
+    starts FSLeyes will following options (max intensity is automatically computed by the script):
     ```
     fsleyes sub-01_T1w.nii.gz -dr 0 <max * 0.7>
     ```
@@ -69,15 +69,15 @@ alias ff='fsleyes_preset.sh'
 ## Create your own configuration file
 
 The `fsleyes_preset.py` script fetches display options for individual nii files from configuration file located in your
-home directory: `~/.fsleyes_preset/config.py`
+home directory: `~/.fsleyes_preset/config.py`.
 
-Instructions how to create this config file:
+Instructions how to create your own configuration file:
 
 ```console
 mkdir ~/.fsleyes_preset
 cp config.py ~/.fsleyes_preset/config.py
 ```
 
-Then, modify the `~/.fsleyes_preset/config.py` file in your favorite text editor (vim, nano, atom, ...)
+Then, modify the `~/.fsleyes_preset/config.py` file in your favorite text editor (vim, nano, atom, ...).
 
-If the `~/.fsleyes_preset/config.py` does not exist, the default config file located within this repo is used
+If the `~/.fsleyes_preset/config.py` does not exist, the default configuration file located within this repo is used.
