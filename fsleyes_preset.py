@@ -118,6 +118,10 @@ def main(argv=None):
     # Loop across input arguments (i.e., individual input files)
     for arg in argv:
 
+        # Skip argument if it is folder
+        if os.path.isdir(arg):
+            continue
+
         if not os.path.isfile(arg):
             print(f'ERROR - File {arg} does not exist.')
             sys.exit()
