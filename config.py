@@ -23,12 +23,12 @@
 # "*" - matches zero or more - group in brackets () that precedes the star can occur any number of times in the text
 
 conversion_dict = {
-    '_seg(_manual)*.nii(.gz)*': '-cm red -a 50',    # spinal cord segmentation
-    '_seg_labeled.nii': '-cm random -a 70',         # spinal cord labeling
-    '_gmseg(_manual)*.nii(.gz)*': '-cm blue -a 50', # spinal cord gray matter segmentation
-    '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	    # DTI FA map
-    'thresh_zstat': '-cm red-yellow',	            # FSL FEAT activation
-    '_bin.nii': '-cm blue'		                    # Binarized mask
+    '_seg(_manual)*.nii(.gz)*': '-cm red -a 50',        # spinal cord segmentation
+    '_seg_labeled.nii(.gz)*': '-cm random -a 70',       # spinal cord labeling
+    '_gmseg(_manual)*.nii(.gz)*': '-cm blue -a 50',     # spinal cord gray matter segmentation
+    '.*FA*.nii(.gz)*': '-cm red-yellow -dr 0 1',	    # DTI FA map
+    'thresh_zstat': '-cm red-yellow',	                # FSL FEAT activation
+    '_bin.nii(.gz)*': '-cm blue'		                # Binarized mask
 }
 
 # List of images to set max intensity to 70%
