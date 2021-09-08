@@ -57,7 +57,7 @@ conversion_dict = {
 }
 
 # List of images to set max intensity to 70%
-set_intensity_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'Mprage.nii.gz', 'MprageGd.nii.gz']
+set_intensity_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'Mprage.nii.gz', 'MprageGd.nii.gz', 'T2TRA_thr_bia_corr.nii.gz']
 
 
 def run_command(command, print_command=True):
