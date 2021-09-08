@@ -57,7 +57,7 @@ conversion_dict = {
 }
 
 # List of images to set max intensity to 70%
-set_intensity_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'Mprage.nii.gz', 'MprageGd.nii.gz', 'T2TRA_thr_bia_corr.nii.gz']
+set_intensity_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'Mprage.nii.gz', 'MprageGd.nii.gz', 'T2TRA_thr_bias_corr.nii.gz']
 
 
 def run_command(command, print_command=True):
@@ -147,7 +147,7 @@ def main(argv=None):
                 # Get max intensity
                 _, max_intensity = get_image_intensities(fname)
                 # Decrease max intensity to 70 %
-                max_intensity = str(int(max_intensity * 0.7))
+                max_intensity = str(max_intensity * 0.7)
                 # Add -dr option
                 arguments_list.append(arg + ' -dr 0 ' + max_intensity)
 
