@@ -54,7 +54,8 @@ conversion_dict = {
     '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	# DTI FA map
     '_perf_': '-dr 0 20',		# perfusion
     'thresh_zstat': '-cm red-yellow',	# FEAT activation
-    '_bin.nii': '-cm blue'		# Binarized mask
+    '_bin.nii': '-cm blue',		# Binarized mask
+    'fdt_paths.nii.gz': '-cm red-yellow'
 }
 
 # List of images to set max intensity to 70%
