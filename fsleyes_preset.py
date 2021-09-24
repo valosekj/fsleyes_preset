@@ -62,6 +62,8 @@ conversion_dict = {
 set_intensity_70_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'Mprage.nii.gz', 'MprageGd.nii.gz', 'T2TRA_thr_bias_corr.nii.gz']
 # List of images to set max intensity to 50%
 set_intensity_50_list = ['dti([1-9])*.nii(.gz)*', '.*mddw.*.nii(.gz)*']
+# List of images to set human readable name in FSLeyes
+set_name = ['fdt_paths.nii.gz']
 
 def run_command(command, print_command=True):
     """
@@ -141,6 +143,18 @@ def main(argv=None):
             if bool(keyRegex.search(arg)):
                 # Add options (-dr, -cm, ...) for given file
                 arguments_list.append(arg + ' ' + value)
+                # Loop across items in list to change name
+                for item in set_name:
+                    # Compile a regular expression pattern into regular expression object
+                    itemRegex = re.compile(item)
+                    # Check if input file (arg) is included in itemRegex
+                    if bool(itemRegex.search(arg)):
+                        # Get full absolute path to input file
+                        arg_full_path = os.path.abspath(arg)
+                        # Get name of directory where is the file saved
+                        directory_name = arg_full_path.split('/')[-2]
+                        # Append to the list
+                        arguments_list.append(' -n ' + directory_name)
 
         # Loop across items in list with structural images to decrease max intensity to 70 %
         for item in set_intensity_70_list:
