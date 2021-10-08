@@ -67,7 +67,7 @@ set_intensity_50_list = ['dti([1-9])*.nii(.gz)*', '.*mddw.*.nii(.gz)*']
 set_name = ['fdt_paths.nii.gz']
 
 # List of supported nifti datatypes
-supported_data_types = ['int16', 'int32', 'float32']
+supported_data_types = ['int16', 'int32', 'float32', 'float64', 'uint8']
 
 
 def run_command(command, print_command=True):
