@@ -24,6 +24,7 @@ class Machine(Enum):
 # -dr LO HI - display range
 # -cm CMAP - color map
 # -a PERC - alpha (opacity)
+# -ot TYPE - overlay type (complex, label, linevector, mask, mesh, mip, rgb, rgbvector, sh, tensor, volume)
 # -xh - hide the X plane
 # -yh - hide the Y plane
 # -zh - hide the Z plane
@@ -64,6 +65,10 @@ set_intensity_70_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'Mprage.ni
 set_intensity_50_list = ['dti([1-9])*.nii(.gz)*', '.*mddw.*.nii(.gz)*']
 # List of images to set human readable name in FSLeyes
 set_name = ['fdt_paths.nii.gz']
+
+# List of supported nifti datatypes
+supported_data_types = ['int16', 'int32', 'float32']
+
 
 def run_command(command, print_command=True):
     """
@@ -110,6 +115,26 @@ def get_image_intensities(fname_image):
     return min_intensity, max_intensity
 
 
+def get_image_type(fname_image):
+    """
+    Get nifti image datatype
+    :param fname_image: str: input nifti image
+    :return: bool
+    """
+
+    # TODO - image with RGB datatype could be shown with -ot rgb option
+
+    # Load nii image
+    image = nib.load(fname_image)
+    # Check data_type (e.g., exclude RGB FA)
+    data_type = image.get_data_dtype()
+    # If data type is in list of supported datatype, return True, otherwise return False
+    if data_type in supported_data_types:
+        return True
+    else:
+        return False
+
+
 def main(argv=None):
     """
     Construct fsleyes command
@@ -134,6 +159,10 @@ def main(argv=None):
         if '[' in arg or ']' in arg:
             print('ERROR - Regular expression in filenames is not supported, use wild card (*) instead')
             sys.exit()
+
+        if not get_image_type(os.path.abspath(arg)):
+            print(f'WARNING - Unsupported datatype for {arg}')
+            continue
 
         # Loop across items in conversion dict
         for key, value in conversion_dict.items():
