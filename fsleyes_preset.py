@@ -62,7 +62,7 @@ conversion_dict = {
 # List of images to set max intensity to 70%
 set_intensity_70_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'T2TRA_thr_bias_corr.nii.gz']
 # List of images to set max intensity to 50%
-set_intensity_50_list = ['Mprage.nii(.gz)*', 'MprageGd.nii(.gz)*','dti([1-9])*.nii(.gz)*', '.*mddw.*.nii(.gz)*']
+set_intensity_50_list = ['Mprage([1-9])*.nii(.gz)*', 'MprageGd.nii(.gz)*','dti([1-9])*.nii(.gz)*', '.*mddw.*.nii(.gz)*']
 # List of images to set human readable name in FSLeyes
 set_name = ['fdt_paths.nii.gz']
 
