@@ -160,9 +160,9 @@ def main(argv=None):
             print('ERROR - Regular expression in filenames is not supported, use wild card (*) instead')
             sys.exit()
 
-	    # Skip json, yml and all other files
-        if not arg.endswith('.nii') or not arg.endswith('.nii.gz'):
-	           continue
+        # Skip json, yml and all other files
+        if not arg.endswith('.nii') and not arg.endswith('.nii.gz'):
+            continue
 
         if not get_image_type(os.path.abspath(arg)):
             print(f'WARNING - Unsupported datatype for {arg}')
