@@ -46,7 +46,7 @@ conversion_dict = {
     '_labels.nii': '-cm red',  # SC labels
     '_gmseg(_manual)*.nii(.gz)*': '-cm blue -a 50',  # GM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
-    'PAM50_levels': '-cm random -a 50',  # PAM50 labeling
+    'PAM50_levels': '-cm cortical -a 50',  # PAM50 labeling
     'PAM50_wm': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM
     'PAM50_gm': '-cm red-yellow -dr 0.5 1',		# PAM50 GM
     'PAM50_atlas_53': '-cm green -dr 0.3 1',	# PAM50 dorsal columns
