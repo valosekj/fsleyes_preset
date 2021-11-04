@@ -42,7 +42,7 @@ conversion_dict = {
     'sub.*acq-M0map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 300',  # M0-map (proton density)
     '_seg(_manual)*.nii(.gz)*': '-cm red -a 50',  # SC segmentation
     '_seg_crop': '-cm red -a 50',	# Cropped SC segmetnation
-    '_seg_labeled.nii': '-cm cortical -a 70',  # SC labeling
+    '_seg_labeled.*.nii': '-cm cortical -a 70',  # SC labeling
     '_labels.*.nii': '-cm red',  # SC labels
     '_gmseg(_manual)*.nii(.gz)*': '-cm blue -a 50',  # GM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
