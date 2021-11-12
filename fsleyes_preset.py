@@ -60,9 +60,9 @@ conversion_dict = {
 }
 
 # List of images to set max intensity to 70%
-set_intensity_70_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'T2TRA_thr_bias_corr.nii.gz']
+set_intensity_70_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'T2TRA_thr_bias_corr.nii.gz', 'Mprage([1-9])*.nii(.gz)*']
 # List of images to set max intensity to 50%
-set_intensity_50_list = ['Mprage([1-9])*.nii(.gz)*', 'MprageGd.nii(.gz)*','dti([1-9])*.nii(.gz)*', '.*mddw.*.nii(.gz)*']
+set_intensity_50_list = ['MprageGd.nii(.gz)*','dti([1-9])*.nii(.gz)*', '.*mddw.*.nii(.gz)*']
 # List of images to set human readable name in FSLeyes
 set_name = ['fdt_paths.nii.gz']
 
@@ -191,7 +191,10 @@ def main(argv=None):
 
         # Loop across items in list with structural images to decrease max intensity to 70 %
         for item in set_intensity_70_list:
-            if item in arg:
+            # Compile a regular expression pattern into regular expression object
+            itemRegex = re.compile(item)
+            # Check if input file (arg) is included in itemRegex
+            if bool(itemRegex.search(arg)):
                 # Get absolute path to nii file
                 fname = os.path.abspath(arg)
                 # Get max intensity
