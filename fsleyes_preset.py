@@ -47,8 +47,10 @@ conversion_dict = {
     '_gmseg(_manual)*.nii(.gz)*': '-cm blue -a 50',  # GM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
     'PAM50_levels': '-cm cortical -a 50',  # PAM50 labeling
-    'PAM50_wm': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM
-    'PAM50_gm': '-cm red-yellow -dr 0.5 1',		# PAM50 GM
+    'PAM50_wm': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM template
+    'PAM50_atlas_51': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM atlas
+    'PAM50_gm': '-cm red-yellow -dr 0.5 1',		# PAM50 GM template
+    'PAM50_atlas_52': '-cm red-yellow -dr 0.5 1',		# PAM50 GM atlas
     'PAM50_atlas_53': '-cm green -dr 0.3 1',	# PAM50 dorsal columns
     'PAM50_atlas_54': '-cm blue-lightblue -dr 0.3 1',	# PAM50 lateral columns
     'PAM50_atlas_55': '-cm yellow -dr 0.3 1',	# PAM50 ventral columns
@@ -63,8 +65,23 @@ conversion_dict = {
 set_intensity_70_list = ['T1w.nii.gz', 'T2w.nii.gz', 'T2star.nii.gz', 'T2TRA_thr_bias_corr.nii.gz', 'Mprage([1-9])*.nii(.gz)*']
 # List of images to set max intensity to 50%
 set_intensity_50_list = ['MprageGd.nii(.gz)*','dti([1-9])*.nii(.gz)*', '.*mddw.*.nii(.gz)*']
-# List of images to set human readable name in FSLeyes
-set_name = ['fdt_paths.nii.gz']
+# Dict of images to set human readable name in FSLeyes
+# if key == value, name is set based on abs filename (which includes subID), otherwise, name is set based on key
+set_name = {'fdt_paths.nii.gz': 'fdt_paths.nii.gz',
+            'PAM50_atlas_50': 'PAM50_spinal_cord',
+            'PAM50_atlas_51': 'PAM50_white_matter',
+            'PAM50_atlas_52': 'PAM50_gray_matter',
+            'PAM50_atlas_53': 'PAM50_ventral_columns',
+            'PAM50_atlas_54': 'PAM50_lateral_columns',
+            'PAM50_atlas_55': 'PAM50_dorsal_columns',
+            'PAM50_atlas_56': 'PAM50_fasciculus_gracilis',
+            'PAM50_atlas_57': 'PAM50_dorsal_cuneatus',
+            'PAM50_atlas_58': 'PAM50_lateral_corticospinal_tracts',
+            'PAM50_atlas_59': 'PAM50_spinal_lemniscus',
+            'PAM50_atlas_60': 'PAM50_ventral_corticospinal_tracts',
+            'PAM50_atlas_61': 'PAM50_ventral_GM_horns',
+            'PAM50_atlas_62': 'PAM50_dorsal_GM_horns',
+            }
 
 # List of supported nifti datatypes
 supported_data_types = ['int16', 'int32', 'float32', 'float64', 'uint8']
@@ -176,18 +193,24 @@ def main(argv=None):
             if bool(keyRegex.search(arg)):
                 # Add options (-dr, -cm, ...) for given file
                 arguments_list.append(arg + ' ' + value)
-                # Loop across items in list to change name
-                for item in set_name:
+                # Loop across keys in dict to change name
+                for item in set_name.keys():
                     # Compile a regular expression pattern into regular expression object
                     itemRegex = re.compile(item)
                     # Check if input file (arg) is included in itemRegex
                     if bool(itemRegex.search(arg)):
-                        # Get full absolute path to input file
-                        arg_full_path = os.path.abspath(arg)
-                        # Get name of directory where is the file saved
-                        directory_name = arg_full_path.split('/')[-2]
-                        # Append to the list
-                        arguments_list.append(' -n ' + directory_name)
+                        # if key is equal to value, set name based on abs filename (which includes subID)
+                        if item == set_name[item]:
+                            # Get full absolute path to input file
+                            arg_full_path = os.path.abspath(arg)
+                            # Get name of directory where is the file saved
+                            directory_name = arg_full_path.split('/')[-2]
+                            # Append to the list
+                            arguments_list.append(' -n ' + directory_name)
+                        # if key is not equal to value, set name based on dict value
+                        else:
+                            # Append to the list
+                            arguments_list.append(' -n ' + set_name[item])
 
         # Loop across items in list with structural images to decrease max intensity to 70 %
         for item in set_intensity_70_list:
