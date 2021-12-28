@@ -57,7 +57,8 @@ conversion_dict = {
     '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	# DTI FA map
     '_perf_': '-dr 0 20',		# perfusion
     '.*zstat.*': '-cm red-yellow',	# FEAT activation
-    '_bin.nii': '-cm blue',		# Binarized mask
+    '_bin.nii': '-cm blue -a 50',		# Binarized mask
+    '.*mask.*': '-cm blue -a 50',		# Binarized mask
     'fdt_paths.nii.gz': '-cm red-yellow'
 }
 
