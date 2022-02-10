@@ -44,7 +44,7 @@ conversion_dict = {
     '_seg_crop': '-cm red -a 50',	# Cropped SC segmetnation
     '_seg_labeled.*.nii': '-cm cortical -a 70',  # SC labeling
     '_labels.*.nii': '-cm red',  # SC labels
-    '_gmseg(_manual)*.nii(.gz)*': '-cm blue -a 50',  # GM segmentation
+    '_gmseg[-_](manual)*.nii(.gz)*': '-cm blue -a 50',  # GM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
     'PAM50_levels': '-cm cortical -a 50',  # PAM50 labeling
     'PAM50_wm': '-cm blue-lightblue -dr 0.5 1', # PAM50 WM template
