@@ -40,7 +40,7 @@ conversion_dict = {
     'sub.*acq-T2map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 80 -cm brain_colours_2winter_iso',  # T2-map
     'sub.*acq-T1-T2map.*MRF(_crop)*(masked)*.nii(.gz)*': '-dr 0 50', 	# T1/T2 ratio
     'sub.*acq-M0map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 300',  # M0-map (proton density)
-    '_seg[-_](manual)*.nii(.gz)*': '-cm red -a 50',  # SC segmentation
+    '_seg([-_]manual)*.nii(.gz)*': '-cm red -a 50',  # SC segmentation
     '_seg_crop': '-cm red -a 50',	# Cropped SC segmetnation
     '_seg_labeled.*.nii': '-cm cortical -a 70',  # SC labeling
     '_labels.*.nii': '-cm red',  # SC labels
