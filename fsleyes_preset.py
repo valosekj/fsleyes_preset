@@ -85,7 +85,7 @@ set_name = {'fdt_paths.nii.gz': 'fdt_paths.nii.gz',
             }
 
 # List of supported nifti datatypes
-supported_data_types = ['int16', 'int32', 'float32', 'float64', 'uint8']
+supported_data_types = ['int16', 'int32', 'float32', 'float64', 'uint8', 'uint16']
 
 
 def run_command(command, print_command=True):
