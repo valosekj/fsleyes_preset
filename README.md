@@ -58,4 +58,6 @@ ln -s <PATH_TO_CLONED_REPO>/fsleyes_preset/fsleyes_preset.sh /usr/local/bin/fsle
 
 ```
 alias ff='fsleyes_preset.sh'
+# or if you do not want to get errors into CLI
+alias ff='fsleyes_preset &> /dev/null'
 ```
