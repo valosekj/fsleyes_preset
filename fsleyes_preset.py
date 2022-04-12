@@ -15,7 +15,8 @@ from enum import Enum
 
 
 class Machine(Enum):
-    linux_laboratory = '/usr/local/fsl-6.0.4/bin/fsleyes'
+#    linux_laboratory = '/usr/local/fsl-6.0.4/bin/fsleyes'
+    linux_laboratory = '/usr/local/fsleyes-1.3.3.env/bin/fsleyes'
     linux = '/usr/local/fsl/bin/fsleyes'
     mac = 'fsleyes'
 
