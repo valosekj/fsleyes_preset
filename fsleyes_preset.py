@@ -59,7 +59,7 @@ conversion_dict = {
     'PAM50_atlas_54': '-cm blue-lightblue -dr 0.3 1',	# PAM50 lateral columns
     'PAM50_atlas_55': '-cm yellow -dr 0.3 1',	# PAM50 ventral columns
     '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	# DTI FA map
-    '*dyads*.nii(.gz)*': ' -ot linevector',        # FSL bedpostx output
+    '.*dyads.*.nii(.gz)*': ' -ot linevector',        # FSL bedpostx output
     '_perf_': '-dr 0 20',		# perfusion
     '.*zstat.*': '-cm red-yellow -nc blue-lightblue -un',	    # FEAT activation (-un - use negative colormap)
     '_bin.nii': '-cm blue -a 50',		# Binarized mask
