@@ -23,7 +23,9 @@ class Machine(Enum):
 # Some of FSLeyes options
 # To see all options, run fsleyes --fullhelp
 # -dr LO HI - display range
-# -cm CMAP - color map
+# -cm CMAP - color map color
+# -un - use negative colormap
+# -nc CMAP - ngative colormap color
 # -a PERC - alpha (opacity)
 # -ot TYPE - overlay type (complex, label, linevector, mask, mesh, mip, rgb, rgbvector, sh, tensor, volume)
 # -xh - hide the X plane
@@ -35,6 +37,7 @@ class Machine(Enum):
 # ".*" - matches any number of characters
 # "." - matches only a single character
 # "*" - matches zero or more - group in brackets () that precedes the star can occur any number of times in the text
+
 
 conversion_dict = {
     'sub.*acq-T1map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 2000 -cm hot',  # T1-map
@@ -56,8 +59,9 @@ conversion_dict = {
     'PAM50_atlas_54': '-cm blue-lightblue -dr 0.3 1',	# PAM50 lateral columns
     'PAM50_atlas_55': '-cm yellow -dr 0.3 1',	# PAM50 ventral columns
     '.*FA.nii(.gz)*': '-cm red-yellow -dr 0 1',	# DTI FA map
+    '*dyads*.nii(.gz)*': ' -ot linevector',        # FSL bedpostx output
     '_perf_': '-dr 0 20',		# perfusion
-    '.*zstat.*': '-cm red-yellow',	# FEAT activation
+    '.*zstat.*': '-cm red-yellow -nc blue-lightblue -un',	    # FEAT activation (-un - use negative colormap)
     '_bin.nii': '-cm blue -a 50',		# Binarized mask
     '.*mask.*': '-cm blue -a 50',		# Binarized mask
     'fdt_paths.nii.gz': '-cm red-yellow'
