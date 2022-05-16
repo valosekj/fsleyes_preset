@@ -32,23 +32,23 @@ fsleyes_preset.sh *
 fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50 sub-01_T1w.nii.gz -dr 0 <max * 0.7>
 ```
 
-## Usage
+## Installation and usage
 
 1. Clone repo:
 
-```
+```shell
 git clone https://github.com/valosekj/fsleyes_preset.git
 ```
 
-2. Create virtual environment and install requirements - manual [here](https://gist.github.com/valosekj/8052b227bd3f439a615a33804beaf37f#venv-enviroment)
+2. Create a virtual environment and install requirements - manual [here](https://gist.github.com/valosekj/8052b227bd3f439a615a33804beaf37f#venv-enviroment)
 
-3. Call python script using shell wrapper:
+3. Run the script (shell wrapper calls python script ):
 
 ```
 fsleyes_preset.sh <image_1.nii.gz> ... <image_X.nii.gz>
 ```
 
-4. Create an alias using `ln -s`  to the directory with scripts (e.g., `/usr/local/bin`) to include `fsleyes_preset.sh` to your `$PATH`:
+4. Create an alias using `ln -s`  to the directory with scripts (e.g., `/usr/local/bin`) to include `fsleyes_preset.sh` to your `$PATH` variable:
 
 ```
 ln -s <PATH_TO_CLONED_REPO>/fsleyes_preset/fsleyes_preset.sh /usr/local/bin/fsleyes_preset.sh
@@ -56,8 +56,14 @@ ln -s <PATH_TO_CLONED_REPO>/fsleyes_preset/fsleyes_preset.sh /usr/local/bin/fsle
 
 5. Optionally, you can create an alias in your `rc` file (`.bashrc` or `.zshrc`) to start script only by typing `ff`:
 
-```
+```shell
 alias ff='fsleyes_preset.sh'
 # or if you do not want to get errors into CLI
 alias ff='fsleyes_preset &> /dev/null'
+```
+
+6. Make repo up to date:
+
+```shell
+git pull
 ```
