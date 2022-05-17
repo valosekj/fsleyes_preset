@@ -40,7 +40,7 @@ fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50 sub-01_T1w.nii.gz -dr 0 <max * 0.7>
 git clone https://github.com/valosekj/fsleyes_preset.git
 ```
 
-2. Create a virtual environment and install requirements - manual [here](https://gist.github.com/valosekj/8052b227bd3f439a615a33804beaf37f#venv-enviroment)
+2. Go into the cloned repo (by `cd` command) and create a virtual environment there. Next, install requirements - manual [here](https://gist.github.com/valosekj/8052b227bd3f439a615a33804beaf37f#venv-enviroment)
 
 3. Run the script (shell wrapper calls python script ):
 
