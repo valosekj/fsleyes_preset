@@ -67,10 +67,19 @@ conversion_dict = {
     'fdt_paths.nii.gz': '-cm red-yellow'
 }
 
-# List of images to set max intensity to 70%
-set_intensity_70_list = ['T1w.nii(.gz)*', 'T2w.nii(.gz)*', 'T2star(w)*.nii(.gz)*', 'T2TRA_thr_bias_corr.nii(.gz)*', 'Mprage([1-9])*.nii(.gz)*']
-# List of images to set max intensity to 50%
-set_intensity_50_list = ['MprageGd.nii(.gz)*','dti([1-9])*.nii(.gz)*', '.*mddw.*.nii(.gz)*']
+# max intensity (*100 to get %)
+set_intensity_dict = {
+    'T1w.nii(.gz)*': 0.7,
+    'T2w.nii(.gz)*': 0.7,
+    'T2star(w)*.nii(.gz)*': 0.7,
+    'T2TRA_thr_bias_corr.nii(.gz)*': 0.7,
+    'Mprage([1-9])*.nii(.gz)*': 0.7,
+    'MprageGd.nii(.gz)*': 0.5,
+    'dti([1-9])*.nii(.gz)*': 0.5,
+    '.*mddw.*.nii(.gz)*': 0.5,
+    '.*part-mag_psir.nii(.gz)*': 0.3
+}
+
 # Dict of images to set human readable name in FSLeyes
 # if key == value, name is set based on abs filename (which includes subID), otherwise, name is set based on key
 set_name = {'fdt_paths.nii.gz': 'fdt_paths.nii.gz',
@@ -218,33 +227,18 @@ def main(argv=None):
                             # Append to the list
                             arguments_list.append(' -n ' + set_name[item])
 
-        # Loop across items in list with structural images to decrease max intensity to 70 %
-        for item in set_intensity_70_list:
+        # Loop across items in list with structural images to decrease max intensity
+        for key, value in set_intensity_dict.items():
             # Compile a regular expression pattern into regular expression object
-            itemRegex = re.compile(item)
+            itemRegex = re.compile(key)
             # Check if input file (arg) is included in itemRegex
             if bool(itemRegex.search(arg)):
                 # Get absolute path to nii file
                 fname = os.path.abspath(arg)
                 # Get max intensity
                 _, max_intensity = get_image_intensities(fname)
-                # Decrease max intensity to 70 %
-                max_intensity = str(max_intensity * 0.7)
-                # Add -dr option
-                arguments_list.append(arg + ' -dr 0 ' + max_intensity)
-
-        # Loop across items in list with structural images to decrease max intensity to 50 %
-        for item in set_intensity_50_list:
-            # Compile a regular expression pattern into regular expression object
-            itemRegex = re.compile(item)
-            # Check if input file (arg) is included in itemRegex
-            if bool(itemRegex.search(arg)):
-                # Get absolute path to nii file
-                fname = os.path.abspath(arg)
-                # Get max intensity
-                _, max_intensity = get_image_intensities(fname)
-                # Decrease max intensity to 70 %
-                max_intensity = str(max_intensity * 0.5)
+                # Decrease max intensity to x %
+                max_intensity = str(max_intensity * value)
                 # Add -dr option
                 arguments_list.append(arg + ' -dr 0 ' + max_intensity)
 
