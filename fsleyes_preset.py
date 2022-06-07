@@ -69,15 +69,16 @@ conversion_dict = {
 
 # max intensity (*100 to get %)
 set_intensity_dict = {
-    'T1w.nii(.gz)*': 0.7,
-    'T2w.nii(.gz)*': 0.7,
-    'T2star(w)*.nii(.gz)*': 0.7,
-    'T2TRA_thr_bias_corr.nii(.gz)*': 0.7,
-    'Mprage([1-9])*.nii(.gz)*': 0.7,
-    'MprageGd.nii(.gz)*': 0.5,
-    'dti([1-9])*.nii(.gz)*': 0.5,
-    '.*mddw.*.nii(.gz)*': 0.5,
-    '.*part-mag_psir.nii(.gz)*': 0.3
+    'T1w.nii(.gz)*': [0, 0.7],
+    'T2w.nii(.gz)*': [0, 0.7],
+    'T2star(w)*.nii(.gz)*': [0, 0.7],
+    'T2TRA_thr_bias_corr.nii(.gz)*': [0, 0.7],
+    'Mprage([1-9])*.nii(.gz)*': [0, 0.7],
+    'MprageGd.nii(.gz)*': [0, 0.5],
+    'dti([1-9])*.nii(.gz)*': [0, 0.5],
+    '.*mddw.*.nii(.gz)*': [0, 0.5],
+    '.*part-mag_psir.nii(.gz)*': [0, 0.3],
+    '.*part-phase_psir.nii(.gz)*': [0.35, 0.6]
 }
 
 # Dict of images to set human readable name in FSLeyes
@@ -227,7 +228,7 @@ def main(argv=None):
                             # Append to the list
                             arguments_list.append(' -n ' + set_name[item])
 
-        # Loop across items in list with structural images to decrease max intensity
+        # Loop across items in dict with images to decrease min and max intensity
         for key, value in set_intensity_dict.items():
             # Compile a regular expression pattern into regular expression object
             itemRegex = re.compile(key)
@@ -237,10 +238,12 @@ def main(argv=None):
                 fname = os.path.abspath(arg)
                 # Get max intensity
                 _, max_intensity = get_image_intensities(fname)
+                # Set min intensity to x % from max
+                min_intensity = str(max_intensity * value[0])
                 # Decrease max intensity to x %
-                max_intensity = str(max_intensity * value)
+                max_intensity = str(max_intensity * value[1])
                 # Add -dr option
-                arguments_list.append(arg + ' -dr 0 ' + max_intensity)
+                arguments_list.append(arg + ' -dr ' + min_intensity + ' ' + max_intensity)
 
     # Convert list of arguments into one single string
     arguments_string = ' '.join([str(element) for element in arguments_list])
