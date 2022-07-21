@@ -15,9 +15,9 @@ if [[ $# -eq 0 ]] || [[ $1 == "-h" ]];then
     echo -e "\nUSAGE:\n\t${0##*/} <image_1.nii.gz> ... <image_X.nii.gz>"
     echo -e "\nEXAMPLE:\n\t${0##*/} sub-001_T1w_seg.nii.gz sub-001_T1w_gmseg.nii.gz ..."
 else
-    # Get path to the python script
+    # Get absolute path to the directory where is located the python script and the venv
     if [[ ${SHELL} == "/bin/bash" ]];then
-    	script_path=$(dirname $(realpath -s "$0"))
+    	script_path=$(dirname $(realpath "$0"))
     elif [[ ${SHELL} == "/bin/zsh" ]];then
 	script_path=$(dirname $(readlink "$0"))
     fi
