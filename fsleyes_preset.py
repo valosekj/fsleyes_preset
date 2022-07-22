@@ -7,6 +7,7 @@
 import os
 import sys
 import re
+import glob
 
 import nibabel as nib
 import numpy as np
@@ -182,6 +183,21 @@ def main(argv=None):
 
     # Loop across input arguments (i.e., individual input files)
     for arg in argv:
+
+        # Open MNI standard if -std1mm or std1mm is passed
+        if 'std1mm' in arg:
+            # Get all available FSL versions
+            available_fsl = glob.glob('/usr/local/fsl*')
+            # Select the first one
+            # TODO - consider if the first one is always the best
+            available_fsl.sort()
+            first_fsl = available_fsl[0]
+            std1mm_path = os.path.join(first_fsl, 'data/standard/MNI152_T1_1mm.nii.gz')
+            if os.path.isfile(std1mm_path):
+                no_arguments_list.append(std1mm_path)
+            else:
+                print(f'ERROR - Standard {std1mm_path} does not exist.')
+            continue
 
         # Skip argument if it is folder
         if os.path.isdir(arg):
