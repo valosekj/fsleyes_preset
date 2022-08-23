@@ -77,7 +77,7 @@ set_intensity_dict = {
     'T2w.nii(.gz)*': [0, 0.7],
     'T2star(w)*.nii(.gz)*': [0, 0.7],
     'T2TRA_thr_bias_corr.nii(.gz)*': [0, 0.7],
-    'Mprage([1-9])*.nii(.gz)*': [0, 0.7],
+    'Mprage([1-9])*.nii(.gz)*': [0, 0.5],
     'MprageGd.nii(.gz)*': [0, 0.5],
     'dti([1-9])*.nii(.gz)*': [0, 0.5],
     '.*mddw.*.nii(.gz)*': [0, 0.5],
