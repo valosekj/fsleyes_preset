@@ -64,8 +64,9 @@ conversion_dict = {
     '.*dyads.*.nii(.gz)*': ' -ot linevector',        # FSL bedpostx output
     '_perf_': '-dr 0 20',		# perfusion
     '.*zstat.*': '-cm red-yellow -nc blue-lightblue -un',	    # FEAT activation (-un - use negative colormap)
-    '_bin.nii': '-cm blue -a 50',		# Binarized mask
+    '_bin.nii(.gz)*': '-cm blue -a 50',		# Binarized mask
     '.*mask.*': '-cm blue -a 50',		# Binarized mask
+    '.*brain.nii(.gz)*': '-cm blue -a 50',			# Brain mask (FSL BET output)
     'fdt_paths.nii.gz': '-cm red-yellow'
 }
 
