@@ -1,6 +1,6 @@
 # Run FSLeyes and automatically set display options
 
-Jan Valosek, fMRI laboratory Olomouc, 2021 - 2022
+Jan Valosek, 2021 - 2022
 
 ## Description
 
