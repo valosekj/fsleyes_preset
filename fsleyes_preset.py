@@ -50,6 +50,7 @@ conversion_dict = {
     '_pred.nii(.gz)*': '-cm blue -a 50',	# ivadomed prediction
     '_seg_crop': '-cm red -a 50',	# Cropped SC segmetnation
     '_seg_labeled.*.nii': '-cm cortical -a 70',  # SC labeling
+    '_lesionseg.nii(.gz)*': '-cm blue',		# MS lesion seg
     '_*labels.*.nii': '-cm red',  # SC labels
     '_gmseg([-_]manual)*.nii(.gz)*': '-cm red-yellow -a 50',  # GM segmentation
     '_wmseg(_erode)*([-_]manual)*.nii(.gz)*': '-cm blue-lightblue -a 50',  # WM segmentation
