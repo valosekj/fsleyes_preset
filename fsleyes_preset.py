@@ -81,8 +81,8 @@ set_intensity_dict = {
     'MprageGd.nii(.gz)*': [0, 0.5],
     'dti([1-9])*.nii(.gz)*': [0, 0.5],
     '.*mddw.*.nii(.gz)*': [0, 0.5],
-    '.*part-mag_IRT1.nii(.gz)*': [0, 0.2],
-    '.*part-phase_IRT1.nii(.gz)*': [0.35, 0.6]
+    'sub-[1-9][1-9][1-9]([1-9]B)*(_acq-0[0-9])*(_inv-01)*(_)*part-mag_IRT1.nii(.gz)*': [0, 0.2],
+    '.*part-real_IRT1.nii(.gz)*': [0.35, 0.6]
 }
 
 # Dict of images to set human readable name in FSLeyes
