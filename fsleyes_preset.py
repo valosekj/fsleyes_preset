@@ -46,10 +46,12 @@ conversion_dict = {
     'sub.*acq-T1-T2map.*MRF(_crop)*(masked)*.nii(.gz)*': '-dr 0 50', 	# T1/T2 ratio
     'sub.*acq-M0map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 300',  # M0-map (proton density)
     '_seg([-_]manual)*.nii(.gz)*': '-cm red -a 50',  # SC segmentation
+    '_centerline.nii(.gz)*': '-cm red',		# SC centerline
     '_pred.nii(.gz)*': '-cm blue -a 50',	# ivadomed prediction
     '_seg_crop': '-cm red -a 50',	# Cropped SC segmetnation
     '_seg_labeled.*.nii': '-cm cortical -a 70',  # SC labeling
-    '_labels.*.nii': '-cm red',  # SC labels
+    '_lesionseg.nii(.gz)*': '-cm blue',		# MS lesion seg
+    '_*labels.*.nii': '-cm red',  # SC labels
     '_gmseg([-_]manual)*.nii(.gz)*': '-cm red-yellow -a 50',  # GM segmentation
     '_wmseg(_erode)*([-_]manual)*.nii(.gz)*': '-cm blue-lightblue -a 50',  # WM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
@@ -73,9 +75,9 @@ conversion_dict = {
 
 # max intensity (*100 to get %)
 set_intensity_dict = {
-    'T1w.nii(.gz)*': [0, 0.7],
-    'T2w.nii(.gz)*': [0, 0.7],
-    'T2star(w)*.nii(.gz)*': [0, 0.7],
+    '[tT]1w.nii(.gz)*': [0, 0.7],
+    '[tT]2w.nii(.gz)*': [0, 0.7],
+    '[tT]2s(tar)*(w)*.nii(.gz)*': [0, 0.7],
     'T2TRA_thr_bias_corr.nii(.gz)*': [0, 0.7],
     'Mprage([1-9])*.nii(.gz)*': [0, 0.5],
     'MprageGd.nii(.gz)*': [0, 0.5],
@@ -198,6 +200,16 @@ def main(argv=None):
                 no_arguments_list.append(std1mm_path)
             else:
                 print(f'ERROR - Standard {std1mm_path} does not exist.')
+            continue
+
+        # Open PAM template if pam50 is passed
+        if 'PAM50' in arg:          # e.g., PAM50_t1
+            sct_path = os.environ['SCT_DIR']
+            template_path = os.path.join(sct_path, 'data/PAM50/template/' + arg + '.nii.gz')
+            if os.path.isfile(template_path):
+                no_arguments_list.append(template_path)
+            else:
+                print(f'ERROR - {template_path} does not exist.')
             continue
 
         # Skip argument if it is folder
