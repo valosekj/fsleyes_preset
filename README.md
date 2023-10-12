@@ -34,7 +34,7 @@ fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50 sub-01_T1w.nii.gz -dr 0 <max * 0.7>
 
 ## Installation and usage
 
-1. Clone repo (e.g., into `/usr/local/lib`, or anywhere else):
+1. Clone repo (e.g., into `$HOME/code`, or anywhere else):
 
 ```shell
 git clone https://github.com/valosekj/fsleyes_preset.git
@@ -50,21 +50,14 @@ fsleyes_preset.sh <image_1.nii.gz> ... <image_X.nii.gz>
 
 ### Optional steps:
 
-4. Create a symbolic link (by `ln -s` command)  to the directory with scripts (e.g., `/usr/local/bin`) to include `fsleyes_preset.sh` to your `$PATH` variable:
 
-```
-ln -s <PATH_TO_CLONED_REPO>/fsleyes_preset/fsleyes_preset.sh /usr/local/bin/fsleyes_preset.sh
-```
-
-5. Create an alias in your `rc` file (`.bashrc` or `.zshrc`) to start script only by typing `ff`:
+4. Create an alias in your `rc` file (`.bashrc` or `.zshrc`) to start the script only by typing `ff`:
 
 ```shell
-alias ff='fsleyes_preset.sh'
-# or if you do not want to get errors into CLI
-alias ff='fsleyes_preset &> /dev/null'
+alias ff='$HOME/code/fsleyes_preset/fsleyes_preset.sh'
 ```
 
-6. Make repo up to date:
+5. Make the repo up to date:
 
 ```shell
 git pull
