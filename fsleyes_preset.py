@@ -49,11 +49,11 @@ conversion_dict = {
     '_centerline.nii(.gz)*': '-cm red',		# SC centerline
     '_pred.nii(.gz)*': '-cm blue -a 50',	# ivadomed prediction
     '_seg_crop': '-cm red -a 50',	# Cropped SC segmetnation
-    '_seg_labeled.*.nii': '-cm cortical -a 70',  # SC labeling
+    '_seg_labeled.*.nii(.gz)*': '-cm cortical -a 70',  # SC labeling
     '_lesion([-_]manual)*.nii(.gz)*': '-cm blue',		# SCI/MS lesion seg
     # Custom jet colormap: https://gist.github.com/valosekj/e9464071a07197f52a4526d8014e2e9a
     'rootlet.*.nii(.gz)*': '-cm jet_matplotlib',		# spinal rootlets
-    '_*labels.*.nii': '-cm red',  # SC labels
+    '_*labels.*.nii(.gz)*': '-cm red',  # SC labels
     '_gmseg([-_]manual)*.nii(.gz)*': '-cm red-yellow -a 50',  # GM segmentation
     '_wmseg(_erode)*([-_]manual)*.nii(.gz)*': '-cm blue-lightblue -a 50',  # WM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
