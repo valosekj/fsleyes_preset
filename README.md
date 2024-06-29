@@ -1,6 +1,6 @@
 # Run FSLeyes and automatically set display options
 
-Jan Valosek, 2021 - 2023
+Jan Valosek, 2021 - 2024
 
 ## Description
 

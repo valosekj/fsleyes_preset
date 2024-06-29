@@ -1,7 +1,7 @@
 #
 # Open FSLeyes and automatically set display options such as -cm (colormap), -dr (display range), -a (opacity)
 #
-# Jan Valosek, fMRI laboratory Olomouc, 2021-2022
+# Authors: Jan Valosek, 2021-2024
 #
 
 import os
