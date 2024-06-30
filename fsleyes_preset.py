@@ -53,7 +53,7 @@ conversion_dict = {
     '_lesion([-_]manual)*.nii(.gz)*': '-cm blue',		# SCI/MS lesion seg
     # Custom jet colormap: https://gist.github.com/valosekj/e9464071a07197f52a4526d8014e2e9a
     'rootlet.*.nii(.gz)*': '-cm jet_matplotlib',		# spinal rootlets
-    '_*labels.*.nii(.gz)*': '-cm red',  # SC labels
+#    '_*labels.*.nii(.gz)*': '-cm red',  # SC labels    # commenting because it matches also /derivatives/labels
     '_gmseg([-_]manual)*.nii(.gz)*': '-cm red-yellow -a 50',  # GM segmentation
     '_wmseg(_erode)*([-_]manual)*.nii(.gz)*': '-cm blue-lightblue -a 50',  # WM segmentation
     'PAM50_cord': '-cm red -a 50',  # PAM50 SC
