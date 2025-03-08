@@ -1,11 +1,10 @@
 #!/bin/bash
-
 #
 # N.B. - This is only shell wrapper for python script fsleyes_preset.py
 #
 # Open FSLeyes and automatically set display options (such as -cm (colormap), -dr (display range), -a (opacity))
 #
-# Jan Valosek, 2021-2024
+# Jan Valosek, 2021-2025
 #
 
 if [[ $# -eq 0 ]] || [[ $1 == "-h" ]];then
