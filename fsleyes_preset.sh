@@ -22,7 +22,7 @@ else
     if [[ ${SHELL} == "/bin/bash" ]];then
     	script_path=$(dirname $(realpath "$0"))
     elif [[ ${SHELL} == "/bin/zsh" ]];then
-	script_path=$(dirname $(readlink "$0"))
+        script_path=$(dirname $(realpath "$0"))
     fi
 
     # Call python script and pass all input arguments
