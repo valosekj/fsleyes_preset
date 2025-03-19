@@ -204,16 +204,6 @@ def main(argv=None):
                 print(f'ERROR - Standard {std1mm_path} does not exist.')
             continue
 
-        # Open PAM template if pam50 is passed
-        if 'PAM50' in arg:          # e.g., PAM50_t1
-            sct_path = os.environ['SCT_DIR']
-            template_path = os.path.join(sct_path, 'data/PAM50/template/' + arg + '.nii.gz')
-            if os.path.isfile(template_path):
-                no_arguments_list.append(template_path)
-            else:
-                print(f'ERROR - {template_path} does not exist.')
-            continue
-
         # Skip argument if it is folder
         if os.path.isdir(arg):
             continue
