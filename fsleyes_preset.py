@@ -8,6 +8,7 @@ import os
 import sys
 import re
 import glob
+import subprocess
 
 import nibabel as nib
 import numpy as np
@@ -176,6 +177,38 @@ def get_image_type(fname_image):
         return False
 
 
+def is_binary_file(file_path):
+    """
+    Check if a file is binary.
+    :param file_path: str: path to the file
+    :return: bool: True if the file is binary, False otherwise
+    """
+    try:
+        with open(file_path, 'rb') as file:
+            # Read the first 1024 bytes
+            chunk = file.read(1024)
+            # Check if the chunk contains null bytes
+            if b'\0' in chunk:
+                return True
+            else:
+                return False
+    except Exception as e:
+        print(f'ERROR - Could not read file {file_path}: {e}')
+        return False
+
+
+def download_file(file_path):
+    """
+    Download a file using git annex get.
+    :param file_path: str: path to the file
+    :return: None
+    """
+    try:
+        subprocess.run(['git', 'annex', 'get', file_path], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f'ERROR - Could not download file {file_path}: {e}')
+
+
 def main(argv=None):
     """
     Construct fsleyes command
@@ -219,6 +252,11 @@ def main(argv=None):
         # Skip json, yml and all other files
         if not arg.endswith('.nii') and not arg.endswith('.nii.gz'):
             continue
+
+        # Check if the file is binary
+        if not is_binary_file(arg):
+            print(f"INFO - File {arg} is not binary, attempting to download it using 'git annex get'")
+            download_file(arg)
 
         if not get_image_type(os.path.abspath(arg)):
             print(f'WARNING - Unsupported datatype for {arg}')
