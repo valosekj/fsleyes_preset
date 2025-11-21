@@ -269,6 +269,8 @@ def main(argv=None):
     no_arguments_list = list()
     # Track absolute paths to avoid opening the same file more than once across argv
     seen_files = set()
+    # NEW: Collect entries as (filepath, options_string) to allow de-dup + reordering
+    overlay_entries = []
 
     # Loop across input arguments (i.e., individual input files)
     for arg in argv:
@@ -352,21 +354,35 @@ def main(argv=None):
         # If we collected options, add single overlay line; otherwise, add to no-args
         options_string = _opts_to_string(opt_dict)
         if options_string:
-            arguments_list.append(f'{arg} {options_string}')
+            overlay_entries.append((arg, options_string))
         else:
-            no_arguments_list.append(arg)
+            overlay_entries.append((arg, ''))
 
-    # Convert list of arguments into one single string
-    arguments_string = ' '.join([str(element) for element in arguments_list])
+    # De-duplicate: last occurrence wins
+    dedup = {}
+    for fpath, opts in overlay_entries:
+        dedup[fpath] = opts  # overwrite if seen before
 
+    def _is_mask(fname):
+        base = os.path.basename(fname).lower()
+        mask_keywords = ['seg', 'mask', 'lesion', 'centerline', 'atlas', 'labels', 'label', 'rootlet', 'pam50']
+        return any(k in base for k in mask_keywords)
 
-    # Convert list into one single string
-    no_arguments_string = ' '.join([str(element) for element in no_arguments_list])
+    # Reorder: raw images first, then masks
+    raw = [(f, o) for f, o in dedup.items() if not _is_mask(f)]
+    masks = [(f, o) for f, o in dedup.items() if _is_mask(f)]
+    ordered = raw + masks
 
-    # Construct shell command with fsleyes based on operating system (linux or darwin)
-    command = get_fsleyes_command() + ' ' + no_arguments_string + ' ' + arguments_string
+    # Build final command string
+    fsleyes_cmd = get_fsleyes_command()
+    parts = []
+    for f, o in ordered:
+        if o:
+            parts.append(f'{f} {o}'.strip())
+        else:
+            parts.append(f)
+    command = fsleyes_cmd + ' ' + ' '.join(parts)
 
-    # Call shell command
     run_command(command)
 
 
