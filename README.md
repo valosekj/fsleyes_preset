@@ -1,6 +1,6 @@
 # Run FSLeyes and automatically set display options
 
-Jan Valosek, 2021 - 2024
+Jan Valosek, 2021 - 2026
 
 ## Description
 
@@ -12,7 +12,7 @@ The script automatically set display options for [FSLeyes](https://fsl.fmrib.ox.
 
 ```console
 fsleyes_preset.sh sub-01_T1w_seg.nii.gz
-# starts FSLeyes will following options:
+# starts FSLeyes with the following options:
 fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50
 ```
 
@@ -20,7 +20,7 @@ fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50
 
 ```console
 fsleyes_preset.sh sub-01_T1w.nii.gz
-# starts FSLeyes will following options:
+# starts FSLeyes with the following options:
 fsleyes sub-01_T1w.nii.gz -dr 0 <max * 0.7>
 ```
 
@@ -28,7 +28,7 @@ fsleyes sub-01_T1w.nii.gz -dr 0 <max * 0.7>
 
 ```console
 fsleyes_preset.sh *
-# starts FSLeyes will following options:
+# starts FSLeyes with the following options:
 fsleyes sub-01_T1w_seg.nii.gz -cm red -a 50 sub-01_T1w.nii.gz -dr 0 <max * 0.7>
 ```
 
