@@ -36,7 +36,7 @@ class Machine(Enum):
 # -n - set name to overlay (only within FSLeyes)
 
 # REGEX explanation
-# ".*" - matches any number of characters
+# " .*" - matches any number of characters
 # "." - matches only a single character
 # "*" - matches zero or more - group in brackets () that precedes the star can occur any number of times in the text
 
@@ -47,6 +47,7 @@ conversion_dict = {
     'sub.*acq-T1-T2map.*MRF(_crop)*(masked)*.nii(.gz)*': '-dr 0 50', 	# T1/T2 ratio
     'sub.*acq-M0map.*MRF(_crop)*(_masked)*.nii(.gz)*': '-dr 0 300',  # M0-map (proton density)
     '_seg([-_]manual)*.nii(.gz)*': '-cm red -a 50',  # SC segmentation
+    '.*canal.*.nii(.gz)*': '-cm blue -a 50',	# spinal canal segmentation
     '_centerline.nii(.gz)*': '-cm red',		# SC centerline
     '_pred.nii(.gz)*': '-cm blue -a 50',	# ivadomed prediction
     '_seg_crop': '-cm red -a 50',	# Cropped SC segmetnation
@@ -209,6 +210,54 @@ def download_file(file_path):
         print(f'ERROR - Could not download file {file_path}: {e}')
 
 
+# Helper to parse option strings and merge without duplicating overlays
+# Last occurrence of a flag wins (e.g., -cm, -dr, -a, -ot, -nc, -un, -n)
+
+def _add_options(opt_dict, opt_string):
+    tokens = opt_string.split()
+    i = 0
+    while i < len(tokens):
+        tok = tokens[i]
+        if tok in ('-dr',):
+            # needs two numbers
+            if i + 2 < len(tokens):
+                opt_dict['-dr'] = tokens[i + 1] + ' ' + tokens[i + 2]
+                i += 3
+            else:
+                break
+        elif tok in ('-cm', '-nc', '-ot', '-n', '-a'):
+            if i + 1 < len(tokens):
+                opt_dict[tok] = tokens[i + 1]
+                i += 2
+            else:
+                break
+        elif tok in ('-un', '-xh', '-yh', '-zh'):
+            opt_dict[tok] = ''
+            i += 1
+        else:
+            # Unrecognized token - append to extras list
+            extras = opt_dict.get('_extras', [])
+            extras.append(tok)
+            opt_dict['_extras'] = extras
+            i += 1
+
+
+def _opts_to_string(opt_dict):
+    order = ['-dr', '-cm', '-nc', '-un', '-a', '-ot', '-xh', '-yh', '-zh', '-n']
+    parts = []
+    for flag in order:
+        if flag in opt_dict:
+            val = opt_dict[flag]
+            if val == '' or val is None:
+                parts.append(flag)
+            else:
+                parts.append(f'{flag} {val}')
+    # Append any extras at the end
+    if '_extras' in opt_dict:
+        parts.extend(opt_dict['_extras'])
+    return ' '.join(parts)
+
+
 def main(argv=None):
     """
     Construct fsleyes command
@@ -218,6 +267,10 @@ def main(argv=None):
 
     arguments_list = list()
     no_arguments_list = list()
+    # Track absolute paths to avoid opening the same file more than once across argv
+    seen_files = set()
+    # NEW: Collect entries as (filepath, options_string) to allow de-dup + reordering
+    overlay_entries = []
 
     # Loop across input arguments (i.e., individual input files)
     for arg in argv:
@@ -253,6 +306,12 @@ def main(argv=None):
         if not arg.endswith('.nii') and not arg.endswith('.nii.gz'):
             continue
 
+        abs_arg = os.path.abspath(arg)
+        # Skip if this file has already been processed (e.g., passed twice on CLI or matched by multiple globs)
+        if abs_arg in seen_files:
+            continue
+        seen_files.add(abs_arg)
+
         # Check if the file is binary
         if not is_binary_file(arg):
             print(f"INFO - File {arg} is not binary, attempting to download it using 'git annex get'")
@@ -262,68 +321,68 @@ def main(argv=None):
             print(f'WARNING - Unsupported datatype for {arg}')
             continue
 
+        # Collect options for this overlay, ensuring each file is added only once
+        opt_dict = {}
+
         # Loop across items in conversion dict
         for key, value in conversion_dict.items():
-            # Compile a regular expression pattern into regular expression object
             keyRegex = re.compile(key)
-            # Check if input file (arg) is included in conversion dict (keyRegex)
             if bool(keyRegex.search(arg)):
-                # Add options (-dr, -cm, ...) for given file
-                arguments_list.append(arg + ' ' + value)
-                # Loop across keys in dict to change name
-                for item in set_name.keys():
-                    # Compile a regular expression pattern into regular expression object
-                    itemRegex = re.compile(item)
-                    # Check if input file (arg) is included in itemRegex
-                    if bool(itemRegex.search(arg)):
-                        # if key is equal to value, set name based on abs filename (which includes subID)
-                        if item == set_name[item]:
-                            # Get full absolute path to input file
-                            arg_full_path = os.path.abspath(arg)
-                            # Get name of directory where is the file saved
-                            directory_name = arg_full_path.split('/')[-2]
-                            # Append to the list
-                            arguments_list.append(' -n ' + directory_name)
-                        # if key is not equal to value, set name based on dict value
-                        else:
-                            # Append to the list
-                            arguments_list.append(' -n ' + set_name[item])
+                _add_options(opt_dict, value)
+
+        # Loop across keys in dict to change name
+        for item in set_name.keys():
+            itemRegex = re.compile(item)
+            if bool(itemRegex.search(arg)):
+                if item == set_name[item]:
+                    arg_full_path = os.path.abspath(arg)
+                    directory_name = arg_full_path.split('/')[-2]
+                    opt_dict['-n'] = directory_name
+                else:
+                    opt_dict['-n'] = set_name[item]
 
         # Loop across items in dict with images to decrease min and max intensity
         for key, value in set_intensity_dict.items():
-            # Compile a regular expression pattern into regular expression object
             itemRegex = re.compile(key)
-            # Check if input file (arg) is included in itemRegex
             if bool(itemRegex.search(arg)):
-                # Get absolute path to nii file
                 fname = os.path.abspath(arg)
-                # Get max intensity
                 _, max_intensity = get_image_intensities(fname)
-                # Set min intensity to x % from max
                 min_intensity = str(max_intensity * value[0])
-                # Decrease max intensity to x %
-                max_intensity = str(max_intensity * value[1])
-                # Add -dr option
-                arguments_list.append(arg + ' -dr ' + min_intensity + ' ' + max_intensity)
+                max_intensity_str = str(max_intensity * value[1])
+                _add_options(opt_dict, f'-dr {min_intensity} {max_intensity_str}')
 
-    # Convert list of arguments into one single string
-    arguments_string = ' '.join([str(element) for element in arguments_list])
+        # If we collected options, add single overlay line; otherwise, add to no-args
+        options_string = _opts_to_string(opt_dict)
+        if options_string:
+            overlay_entries.append((arg, options_string))
+        else:
+            overlay_entries.append((arg, ''))
 
-    # Identify files without any argument
-    # Loop across input arguments (i.e., individual input files)
-    for arg in argv:
-        # Continue only if current file is nifti file (i.e., skip json, yml and all other files)
-        if arg.endswith('.nii') or arg.endswith('.nii.gz'):
-            if arg not in arguments_string:
-                no_arguments_list.append(arg)
+    # De-duplicate: last occurrence wins
+    dedup = {}
+    for fpath, opts in overlay_entries:
+        dedup[fpath] = opts  # overwrite if seen before
 
-    # Convert list into one single string
-    no_arguments_string = ' '.join([str(element) for element in no_arguments_list])
+    def _is_mask(fname):
+        base = os.path.basename(fname).lower()
+        mask_keywords = ['seg', 'mask', 'lesion', 'centerline', 'atlas', 'labels', 'label', 'rootlet', 'pam50']
+        return any(k in base for k in mask_keywords)
 
-    # Construct shell command with fsleyes based on operating system (linux or darwin)
-    command = get_fsleyes_command() + ' ' + no_arguments_string + ' ' + arguments_string
+    # Reorder: raw images first, then masks
+    raw = [(f, o) for f, o in dedup.items() if not _is_mask(f)]
+    masks = [(f, o) for f, o in dedup.items() if _is_mask(f)]
+    ordered = raw + masks
 
-    # Call shell command
+    # Build final command string
+    fsleyes_cmd = get_fsleyes_command()
+    parts = []
+    for f, o in ordered:
+        if o:
+            parts.append(f'{f} {o}'.strip())
+        else:
+            parts.append(f)
+    command = fsleyes_cmd + ' ' + ' '.join(parts)
+
     run_command(command)
 
 
