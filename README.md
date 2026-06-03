@@ -57,6 +57,12 @@ fsleyes_preset.sh <image_1.nii.gz> ... <image_X.nii.gz>
 alias ff='$HOME/code/fsleyes_preset/fsleyes_preset.sh'
 ```
 
+Then you can use:
+
+```
+ff <image_1.nii.gz> ... <image_X.nii.gz>
+```
+
 5. Make the repo up to date:
 
 ```shell
