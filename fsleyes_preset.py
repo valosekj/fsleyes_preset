@@ -110,7 +110,8 @@ set_name = {'fdt_paths.nii.gz': 'fdt_paths.nii.gz',
             }
 
 # List of supported nifti datatypes
-supported_data_types = ['int8', 'int16', 'int32', 'int64', 'float32', 'float64', 'uint8', 'uint16', 'uint64']
+supported_data_types = ['int8', 'int16', 'int32', 'int64', 'float32', 'float64', 'uint8', 'uint16', 'uint64',
+                        'complex64', 'complex128']  # complex* for NIfTI-MRS (single-voxel spectroscopy)
 
 
 def run_command(command, print_command=True):
